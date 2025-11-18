@@ -345,14 +345,21 @@ cat("Bat-speed RMSE:", round(sqrt(min(cv_bs$cvm)), 2), "\n")
 cv_ev
 cv_bs
 
-# some nice predictive value found in the feature vectors to predict bat speed
-# a good amount better than the baseline
 # fv's not useful for predicting exit velo but there are other factors at play like contact quality (as in topping/bottoming the ball) that wouldn't be accounted for here
 
 # biggest takeaway is that there are more efficient and less efficient ways to move, which are captured in the covariance structure of a dimensionality-reduced dataset!
 
 
+# checking SD across folds
+K <- 5   # number of CV folds used
 
+## at lambda.min
+j_min <- which(cv_bs$lambda == cv_bs$lambda.min)
+sd_min <- cv_bs$cvsd[j_min] * sqrt(K)
 
+## at lambda.1se
+j_1se <- which(cv_bs$lambda == cv_bs$lambda.1se)
+sd_1se <- cv_bs$cvsd[j_1se] * sqrt(K)
 
-
+cat("SD across folds @lambda.min:", sd_min, "\n")
+cat("SD across folds @lambda.1se:", sd_1se, "\n")
